@@ -2,7 +2,7 @@ const express = require(`express`);
 const path = require(`path`);
 const bodyParser = require(`body-parser`);
 const exphbs = require(`express-handlebars`);
-const mongoose = require(`mongoose`);
+const mongoose = require(`./db/mongoose.js`);
 const users = require(`./routes/users.js`);
 
 const port = process.env.PORT || 3000;
