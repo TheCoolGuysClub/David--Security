@@ -2,8 +2,12 @@ const express = require(`express`);
 const path = require(`path`);
 const bodyParser = require(`body-parser`);
 const exphbs = require(`express-handlebars`);
+//local requirements
 const mongoose = require(`./db/mongoose.js`);
-const users = require(`./routes/users.js`);
+const usersRoute = require(`./routes/users.js`);
+
+const User = require(`./models/user.js`);
+
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -15,9 +19,7 @@ app.engine(`hbs`,exphbs({defaultLayout:`main`,
 app.set(`view engine`,`hbs`);
 
 //mount routes
-app.use(`/users`,users);
-
-
+app.use(`/users`,usersRoute);
 
 app.get(`/`,(req,res)=>{
   res.render(`index`);

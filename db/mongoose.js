@@ -1,4 +1,13 @@
 const mongoose = require(`mongoose`);
 
 const database = process.env.MONGODB_URI ||
-            `mogodb://localhost:27017/loginExample`;
+            `mongodb://localhost:27017/loginExample`;
+mongoose.connect(database)
+  .then(()=>{
+    console.log(`Database up on ${database}`);
+  }).catch((e)=>{
+    console.log(e);
+    console.log(`Unable to connect to databse`);
+  })
+
+module.exports = mongoose;
