@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
       //to validate
       message:`{VALUE} is not an email`
     }
-  }
+  },
   password:{
     type:String,
     require:true,
@@ -24,3 +24,7 @@ const userSchema = mongoose.Schema({
   }
 
 });
+//creates a User that is userSchema
+const User = mongoose.model(`User`,userSchema);
+//Exports User
+module.exports=User;

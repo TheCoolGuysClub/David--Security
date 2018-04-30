@@ -6,7 +6,6 @@ const exphbs = require(`express-handlebars`);
 const mongoose = require(`./db/mongoose.js`);
 const usersRoute = require(`./routes/users.js`);
 
-const User = require(`./models/user.js`);
 
 
 const port = process.env.PORT || 3000;
@@ -17,7 +16,9 @@ app.set(`views`,path.join(__dirname,`views`));
 app.engine(`hbs`,exphbs({defaultLayout:`main`,
                          extname:      `.hbs`}))
 app.set(`view engine`,`hbs`);
-
+//Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 //mount routes
 app.use(`/users`,usersRoute);
 
