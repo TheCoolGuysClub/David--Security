@@ -16,7 +16,9 @@ const logger = (req,res,next)=>{
 users.get(`/register`,(req,res)=>{
   res.render(`register`);
 })
-
+users.get('/home',(req,res)=>{
+  res.render('home')
+})
 users.post(`/register`,[
   //here we go again this is the first function
   body(`email`)
@@ -36,10 +38,18 @@ users.post(`/register`,[
   (req,res)=>{
   const errors = validationResult(req);
     if(!errors.isEmpty()){
-      return console.log(`errors`,errors.array());
+      console.log(`errors`,errors.array());
+      return res.redirect(`/register`);
     }
-    const user = matchedData(req);
-    console.log(`valid user:`,user);
+    const userData = matchedData(req);
+    const user = new User(userData);
+    user.save()
+      .then(user=>{
+        res.redirect(`/home`);
+      })
+      .catch(e=>{
+        res.redirect(`/register`);
+      })
 
 })
 

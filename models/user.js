@@ -24,6 +24,12 @@ const userSchema = mongoose.Schema({
   }
 
 });
+//function can binds the word `this` to the current method caller
+//like this.something
+//arrow function does not bind `this`
+userSchema.pre(`save`,function() {
+  const user = this;
+})
 //creates a User that is userSchema
 const User = mongoose.model(`User`,userSchema);
 //Exports User
