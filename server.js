@@ -4,8 +4,8 @@ const bodyParser = require(`body-parser`);
 const exphbs = require(`express-handlebars`);
 //local requirements
 const mongoose = require(`./db/mongoose.js`);
-const usersRoute = require(`./routes/users.js`);
-
+const authRoute = require(`./routes/users.js`);
+const morgan = require(`morgan`);
 
 
 const port = process.env.PORT || 3000;
@@ -19,8 +19,9 @@ app.set(`view engine`,`hbs`);
 //Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(morgan(`dev`));
 //mount routes
-app.use(`/users`,usersRoute);
+app.use(`/`,authRoute);
 
 app.get(`/`,(req,res)=>{
   res.render(`index`);
