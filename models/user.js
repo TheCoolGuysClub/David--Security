@@ -27,8 +27,18 @@ const userSchema = mongoose.Schema({
 //function can binds the word `this` to the current method caller
 //like this.something
 //arrow function does not bind `this`
-userSchema.pre(`save`,function() {
+userSchema.pre(`save`,function(next) {
   const user = this;
+  if(user.isModified(`password`)){
+    bcrypt.hash(user.password,5)
+      .then(hashedPassword=>{
+        user.password=hashedPassword;
+        next();
+      }).catch(e=>{
+        console.log(`${user}failed to hashPassword: `,e);
+        next();
+      })
+  }
 })
 //creates a User that is userSchema
 const User = mongoose.model(`User`,userSchema);
