@@ -27,7 +27,10 @@ app.set(`view engine`,`hbs`);
 //Middleware
 app.use(session({
   //this is the string you made up
-  secret:`cptbtptpbcptdtptp`
+  secret:process.env.SESSION_SECRET,
+  resave:false,
+  saveUninitialized: true,
+  cookie:{secure:false}
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
