@@ -25,6 +25,7 @@ app.engine(`hbs`,exphbs({defaultLayout:`main`,
                          extname:      `.hbs`}))
 app.set(`view engine`,`hbs`);
 //Middleware
+//session make a session cookie for you
 app.use(session({
   //this is the string you made up
   secret:process.env.SESSION_SECRET,
@@ -32,6 +33,8 @@ app.use(session({
   saveUninitialized: true,
   cookie:{secure:false}
 }));
+//flash is a function that make a flash cookie for you
+app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(morgan(`dev`));
