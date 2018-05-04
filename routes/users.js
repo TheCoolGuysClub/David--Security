@@ -17,7 +17,7 @@ users.get(`/register`,(req,res)=>{
   res.render(`register`);
 })
 users.get('/home',(req,res)=>{
-  res.render('home')
+  res.render('home');
 })
 users.post(`/register`,[
   //here we go again this is the first function
@@ -25,7 +25,22 @@ users.post(`/register`,[
     //this checks if the email is a vaild email
     .isEmail()
     //this prints the error message if the isEmail() returns false
-    .withMessage(`Invalid Email Address`),
+    .withMessage(`Invalid Email Address`)
+    // .custom(email=>{
+    //   User.findOne({email:email})
+    //   .then(user=>{
+    //     if(user){
+    //       return false;
+    //     }else{
+    //       return true;
+    //     }
+    //   }).catch(e=>{
+    //     console.log(e);
+    //   })
+    // })
+    // .withMessage(`this email is already in use`)
+    ,
+
   // this is the second function
   body(`password`)
     //min length

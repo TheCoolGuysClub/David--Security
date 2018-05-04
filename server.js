@@ -2,6 +2,7 @@ const express = require(`express`);
 const path = require(`path`);
 const bodyParser = require(`body-parser`);
 const exphbs = require(`express-handlebars`);
+const flash = require(`connect-flash`);
 //local requirements
 const mongoose = require(`./db/mongoose.js`);
 const authRoute = require(`./routes/users.js`);
