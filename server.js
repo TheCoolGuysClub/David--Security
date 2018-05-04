@@ -34,6 +34,8 @@ app.use(session({
   cookie:{secure:false}
 }));
 //flash is a function that make a flash cookie for you
+//the set up takes no agruments because it will be define instanly
+//it needs session first
 app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));

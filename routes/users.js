@@ -53,7 +53,12 @@ users.post(`/register`,[
   (req,res)=>{
   const errors = validationResult(req);
     if(!errors.isEmpty()){
-      console.log(`errors`,errors.array());
+      const errorMessages = errors.array().map(obj=>{
+        return obj.msg;
+      })
+      console.log(`original errors`,errors.array());
+      console.log(`mappederrors`,errorMessages);
+      // req.flash(`errorMessages`,error)
       return res.redirect(`/register`);
     }
     const userData = matchedData(req);
