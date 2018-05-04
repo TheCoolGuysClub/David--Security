@@ -5,6 +5,11 @@
     <title>Hi</title>
   </head>
   <body>
+    {{#each errorMessages}}
+
+    <p style= "color:red">{{message}}</p>
+
+    {{/each}}
     {{{body}}}
   </body>
 </html>

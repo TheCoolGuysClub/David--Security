@@ -40,6 +40,11 @@ app.use(flash());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(morgan(`dev`));
+app.use((req,res,next)=>{
+  //the reason why we use res
+  res.locals.errorMessages = req.flash(`errorMessages`);
+  next();
+})
 //mount routes
 app.use(`/`,authRoute);
 
