@@ -3,6 +3,7 @@ const path = require(`path`);
 const bodyParser = require(`body-parser`);
 const exphbs = require(`express-handlebars`);
 const flash = require(`connect-flash`);
+const session = require(`express-session`)
 //local requirements
 const mongoose = require(`./db/mongoose.js`);
 const authRoute = require(`./routes/users.js`);
