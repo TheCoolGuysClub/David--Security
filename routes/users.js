@@ -64,9 +64,15 @@ users.post(`/register`,[
     const user = new User(userData);
     user.save()
       .then(user=>{
+        req.flash(`successMessage`,{message:"sign up successful!"})
         res.redirect(`/home`);
       })
       .catch(e=>{
+
+        if(e.code ===11000){
+          req.flash(`errorMessages`,{message:"This email has already registereted"});
+        }
+        // console.log(e.code);
         res.redirect(`/register`);
       })
 
