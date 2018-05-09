@@ -1,10 +1,12 @@
 const express = require(`express`);
-const users = express.Router();
+const authRoute = express.Router();
 const {body, validationResult} = require('express-validator/check');
 const {matchedData, sanitize} = require('express-validator/filter');
+const bcrypt = require(`bcryptjs`);
+
 //local
 const User = require(`../models/user.js`);
-
+const {validdateUser} = require(`../middleware/middleware.js`)
 const logger = (req,res,next)=>{
   console.log("This is our custom middleware");
   console.log(`email before change:`, req.body.email);
@@ -13,13 +15,14 @@ const logger = (req,res,next)=>{
   next();
 }
 
-users.get(`/register`,(req,res)=>{
+authRoute.get(`/register`,(req,res)=>{
   res.render(`register`);
 })
-users.get('/home',(req,res)=>{
-  res.render('home');
+authRoute.get('/home',validdateUser,(req,res)=>{
+    res.render(`home`);
+    console.log(`UserId;`,req.session.userId);
 })
-users.post(`/register`,[
+authRoute.post(`/register`,[
   //here we go again this is the first function
   body(`email`)
     //this checks if the email is a vaild email
@@ -65,7 +68,7 @@ users.post(`/register`,[
     user.save()
       .then(user=>{
         req.flash(`successMessage`,{message:"sign up successful!"})
-        res.redirect(`/home`);
+        res.redirect(`/login`);
       })
       .catch(e=>{
 
@@ -79,8 +82,46 @@ users.post(`/register`,[
 })
 
 
-users.get(`/login`,(req,res)=>{
+authRoute.get(`/login`,(req,res)=>{
   res.render(`login`);
 })
+authRoute.post(`/login`,(req,res)=>{
+  User.findOne({email:req.body.email})
+  .then(user=>{
+    if(!user){
+      console.log(`email does not exist`);
+      req.flash(`errorMessages`,{message:`This email does not exist`});
+      res.redirect(`/login`);
+    }
+    else{
+      bcrypt.compare(req.body.password, user.password).then((passwordIsValid) => {
+        if(passwordIsValid){
+          req.session.userId = user._id;
+          req.flash(`successMessage`,{message:`successfully login!`})
+          res.redirect(`/home`);
+        }else{
+          req.flash(`errorMessages`,{message:`Invalid Password`});
+          res.redirect(`/login`);
+        }
+    })
+    .catch(e=>
+      {console.log(e);
+    })
+      //
+      // console.log(`user:`,user);
+      // req.flash(`successMessage`,{message:`successfully login!`})
+      // res.redirect(`/home`);
+    }
+  }).catch(e=>{
+    // req.flash(`errorMessages`,{message:`This email does not exist`});
+    return res.redirect(`/login`);
+  })
+})
 
-module.exports = users;
+authRoute.post(`/logout`,(req,res)=>{
+  req.session.userId=undefined;
+  res.redirect(`/login`);
+})
+
+
+module.exports = authRoute;

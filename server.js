@@ -12,7 +12,7 @@ const session = require(`express-session`);
 require(`dotenv`).config();
 //local requirements
 const mongoose = require(`./db/mongoose.js`);
-const authRoute = require(`./routes/users.js`);
+const authRoute = require(`./routes/authRoute.js`);
 const morgan = require(`morgan`);
 
 
